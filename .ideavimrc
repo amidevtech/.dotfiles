@@ -51,12 +51,6 @@ nnoremap gk 15gkzz
 vnoremap gj 15gjzz
 vnoremap gk 15gkzz
 
-inoremap jk <Esc>
-inoremap JK <Esc>
-inoremap Jk <Esc>
-inoremap jK <Esc>
-inoremap jj <Esc>
-
 
 " Smart way to move between windows
 map <space>j <C-W>j
@@ -76,6 +70,7 @@ map <space>[ :action GotoPreviousError<cr>
 nnoremap <esc><esc> :noh<return>
 map <space><Enter> i<Enter><ESC>
 map <space>f <C-;>
+map <space>w <C-A-;>
 
 nmap <silent> <leader>f :action GotoFile<cr>
 nmap <silent> <leader>t :action GotoClass<cr>
@@ -87,33 +82,39 @@ nmap <silent> <leader>s :action Switcher<CR>
 nmap <silent> <leader>a :action GotoAction<CR>
 nmap <silent> <leader>s :action GotoSymbol<cr>
 nmap <silent> <leader>x :q<CR>
+nmap <silent> <leader>c :action ActivateTerminalToolWindow<CR>
+map <leader>v :vsplit<CR>
+map <leader>h :hsplit<CR>
+map <leader>z :action ToggleZenMode<CR>
+map <leader>p :action ChooseRunConfiguration<CR>
+map <leader>q :action HideAllWindows<CR>
+
+map <leader>d :action ChooseDebugConfiguration<CR>
+
+map <leader>b :action ShowBookmarks<CR>
+map <leader>mm :action ToggleBookmarkWithMnemonic<CR>
+
 map <leader>gg :action Gradle.ExecuteTask<CR>
 map <leader>gi :action Git.Menu<CR>
 map <leader>gm :action Maven.ExecuteGoal<CR>
-map <leader>v :vsplit<CR>
-map <leader>h :hsplit<CR>
-"map <leader>q :action ToggleDistractionFreeMode<CR>
-map <leader>z :action ToggleZenMode<CR>
-map <leader>p :action ChooseRunConfiguration<CR>
 
-map <leader>d :action ChooseDebugConfiguration<CR>
-nmap <space>o :action FileStructurePopup<cr>
-map <space>gd :action GotoDeclaration<CR>
-map <space>gi :action GotoImplementation<CR>
+map <space><leader> :action SearchEverywhere<CR>
+
+map gd :action GotoDeclaration<CR>
+map gi :action GotoImplementation<CR>
+map gu :action ShowUsages<CR>
+map gb :action ToggleLineBreakpoint<CR>
+
 map <space>s :action SaveAll<CR>
-
+nmap <space>o :action FileStructurePopup<cr>
 map <space>r :action Refactorings.QuickListPopupAction<CR>
 map <space>t :action InsertLiveTemplate<CR>i
 map <space>y :action SurroundWith<CR>
-"map <space>e :action ShowErrorDescription<CR>
 map <space>e :action EvaluateExpression<CR>
 map <space>d :action QuickJavaDoc<CR>
 map <space>b :action Back<CR>
 map <space>n :action Forward<CR>
-map <space>u :action ShowUsages<CR>
+map <space>gf :action ReformatWithPrettierAction<CR>
 
 
 
-map <leader>b :action ShowBookmarks<CR>
-map <leader>mm :action ToggleBookmarkWithMnemonic<CR>
-map gb :action ToggleLineBreakpoint<CR>
