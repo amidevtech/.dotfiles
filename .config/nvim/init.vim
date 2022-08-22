@@ -111,7 +111,7 @@ Plug 'onsails/lspkind-nvim'
 Plug 'ThePrimeagen/harpoon'
 
 " DODAC LSP SAGA
-Plug 'glepnir/lspsaga.nvim'
+Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
 Plug 'ray-x/lsp_signature.nvim'
 
 
@@ -258,7 +258,7 @@ nnoremap <space>ca <cmd>lua vim.lsp.buf.code_action()<CR>
 nnoremap <space><space>ca :Lspsaga code_action<CR>
 nnoremap <space>e <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
 nnoremap <space>[ <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-nnoremap <space>] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>'
+nnoremap <space>] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 nnoremap <space>q <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
 nnoremap <space>ff <cmd>lua vim.lsp.buf.formatting()<CR>
 nnoremap <space>fr <cmd>lua vim.lsp.buf.range_formatting()<CR>
@@ -266,6 +266,7 @@ nnoremap <space>fr <cmd>lua vim.lsp.buf.range_formatting()<CR>
 nnoremap <leader>sr <cmd>lua vim.lsp.buf.server_ready()<CR>
 nnoremap <leader>jl <cmd>lua vim.lsp.util.jump_to_location()<CR>
 nnoremap gS :Lspsaga signature_help<CR>
+nnoremap ga <cmd>lua vim.lsp.util.buf_highlight_references()<CR>
 
 
 command! -nargs=0 OR call: <Cmd>lua require'jdtls'.organize_imports()<CR>
@@ -277,12 +278,12 @@ set completeopt=menu,menuone,noselect
 
 
 " Telescope
-map <Leader>r :Telescope oldfiles<CR>
-map <leader>f :Telescope git_files<CR>
-map <Leader>e :Telescope buffers<CR>
+map <Leader>r :Telescope oldfiles layout_strategy=vertical<CR>
+map <leader>f :Telescope git_files layout_strategy=vertical<CR>
+map <Leader>e :Telescope buffers layout_strategy=vertical<CR>
 map <leader>t :Telescope live_grep<CR>
 "map <leader>t :Telescope lsp_dynamic_workspace_symbols  layout_strategy=vertical<CR>
-map <space>f :Telescope current_buffer_fuzzy_find<CR>
+"map <space>f :Telescope current_buffer_fuzzy_find<CR>
 
 map <leader>gc :Telescope git_commits<CR>
 map <leader>gbc :Telescope git_bcomits<CR>
@@ -312,7 +313,7 @@ map <leader>mp :lua require("harpoon.ui").nav_file(4)<CR>
 "map <leader>o :Telescope lsp_workspace_symbols<CR>
 
 lua local actions = require('telescope.actions') require('telescope').setup{ defaults = { mappings = { i = { ["<esc>"] = actions.close }, }, } }
-lua require'nvim-treesitter.configs'.setup { ensure_installed = "maintained", highlight = { enable = true, }, }
+lua require'nvim-treesitter.configs'.setup { ensure_installed = { "java", "javascript", "typescript", "html", "bash", "jsdoc", "json", "markdown", "yaml", "vim" }, highlight = { enable = true, }, }
 
 :lua << EOF
     -- require'lspconfig'.tsserver.setup{ on_attach=on_attach }
@@ -389,6 +390,14 @@ command! -buffer JdtBytecode lua require('jdtls').javap()
 command! -buffer JdtJshell lua require('jdtls').jshell()
 
 :lua <<EOF
+
+    local saga = require 'lspsaga'
+
+    -- use default config
+    saga.init_lsp_saga()
+
+
+
     local tabnine = require('cmp_tabnine.config')
     tabnine:setup({
             max_lines = 1000;
@@ -417,8 +426,8 @@ command! -buffer JdtJshell lua require('jdtls').jshell()
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ['<Down>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
       ['<Up>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-      ['<Tab>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-      ['<S-Tab>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+      -- ['<Tab>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+      -- ['<S-Tab>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<ESC>'] = cmp.mapping.close(),
       ['<CR>'] = cmp.mapping.confirm({ select = true}),
@@ -470,3 +479,17 @@ map <space>w :HopWord<CR>
 map <space><space>l :HopLine<CR>
 vnoremap <space>f <cmd>HopChar1<CR>
 nnoremap <space>f <cmd>HopChar1<CR>
+
+" Expand
+imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+
+" Expand or jump
+imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+
+" Jump forward or backward
+" imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+" smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+" imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+" smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
