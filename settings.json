@@ -1,91 +1,116 @@
 {
-  "vim.leader": ",",
-  "vim.normalModeKeyBindingsNonRecursive": [
-    { "before": ["g", "d"], "commands": ["editor.action.revealDefinition"] },
-    { "before": ["g", "i"], "commands": ["editor.action.goToImplementation"] },
-    { "before": ["g", "u"], "commands": ["editor.action.referenceSearch.trigger"] },
-    { "before": ["g", "b"], "commands": ["editor.debug.action.toggleBreakpoint"] },
+    "window.commandCenter": 1,
+    "totalTypeScript.hideAllTips": true,
+    "C_Cpp.updateChannel": "Insiders",
+    "security.workspace.trust.untrustedFiles": "open",
+    "appService.showDeploySubpathWarning": false,
+    "editor.unicodeHighlight.nonBasicASCII": false,
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "redhat.telemetry.enabled": true,
+    "workbench.colorTheme": "Gruvbox Dark Soft",
+    "editor.minimap.enabled": false,
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "extensions.trustedPublishers": [
+        "angular",
+        "be5invis",
+        "burkeholland",
+        "dsznajder",
+        "dunstontc",
+        "esbenp",
+        "johnpapa",
+        "jundat95",
+        "kevinrose",
+        "maattdd",
+        "pkief",
+        "planbcoding",
+        "profimedica",
+        "redhat",
+        "segerdekort",
+        "tomoki1207",
+        "tomphilbin",
+        "vscodevim",
+        "xdebug",
+        "zobo"
+    ],
+    "settingsSync.ignoredExtensions": [],
+    "vim.leader": ",",
+    "vim.normalModeKeyBindingsNonRecursive": [
+      { "before": ["g", "d"], "commands": ["editor.action.revealDefinition"] },
+      { "before": ["g", "i"], "commands": ["editor.action.goToImplementation"] },
+      { "before": ["g", "u"], "commands": ["editor.action.referenceSearch.trigger"] },
+      { "before": ["g", "b"], "commands": ["editor.debug.action.toggleBreakpoint"] },
+  
+      { "before": ["<leader>", "f"], "commands": ["workbench.action.quickOpen"] },
+      { "before": ["<leader>", "t"], "commands": ["workbench.action.gotoType"] },
+      { "before": ["<leader>", "e"], "commands": [ "workbench.action.showAllEditorsByMostRecentlyUsed" ] },
+      { "before": ["<leader>", "r"], "commands": ["workbench.action.openRecent"] },
+      { "before": ["<leader>", "a"], "commands": ["workbench.action.showCommands"] },
+      { "before": ["<leader>", "x"], "commands": ["workbench.action.closeActiveEditor"] },
 
-    { "before": ["<leader>", "f"], "commands": ["workbench.action.quickOpen"] },
-    { "before": ["<leader>", "t"], "commands": ["workbench.action.gotoType"] },
-    { "before": ["<leader>", "e"], "commands": ["workbench.action.openRecent"] },
-    { "before": ["<leader>", "r"], "commands": ["workbench.action.openRecent"] },
-    { "before": ["<leader>", "a"], "commands": ["workbench.action.showCommands"] },
-    { "before": ["<leader>", "x"], "commands": ["workbench.action.closeActiveEditor"] },
-    { "before": ["<leader>", "c"], "commands": ["workbench.action.terminal.toggleTerminal"] },
-    { "before": ["<leader>", "v"], "commands": ["workbench.action.splitEditorRight"] },
-    { "before": ["<leader>", "h"], "commands": ["workbench.action.splitEditorDown"] },
-    { "before": ["<leader>", "z"], "commands": ["workbench.action.toggleZenMode"] },
-    { "before": ["<leader>", "p"], "commands": ["workbench.action.debug.selectandstart"] },
-    { "before": ["<leader>", "q"], "commands": ["workbench.action.closeAllEditors"] },
-    { "before": ["<leader>", "d"], "commands": ["workbench.action.debug.configure"] },
-    { "before": ["<leader>", "b"], "commands": ["bookmarks.toggle"] },  // needs extension
-    { "before": ["<leader>", "m", "m"], "commands": ["bookmarks.toggle"] },
+      { "before": ["<leader>", "c"], "commands": ["workbench.action.terminal.toggleTerminal"] },
 
-    { "before": ["<space>", "s"], "commands": ["workbench.action.files.saveAll"] },
-    { "before": ["<space>", "o"], "commands": ["workbench.action.gotoSymbol"] },
-    { "before": ["<space>", "r"], "commands": ["editor.action.refactor"] },
-    { "before": ["<space>", "t"], "commands": ["editor.action.insertSnippet"] },
-    { "before": ["<space>", "y"], "commands": ["editor.emmet.action.wrapWithAbbreviation"] },
-    { "before": ["<space>", "e"], "commands": ["editor.debug.action.evaluate"] },
-    { "before": ["<space>", "d"], "commands": ["editor.action.showHover"] },
-    { "before": ["<space>", "b"], "commands": ["workbench.action.navigateBack"] },
-    { "before": ["<space>", "n"], "commands": ["workbench.action.navigateForward"] },
-    { "before": ["<space>", "g", "f"], "commands": ["prettier.format"] },
-
-    { "before": ["<space>", "j"], "commands": ["workbench.action.focusBelowGroup"] },
-    { "before": ["<space>", "k"], "commands": ["workbench.action.focusAboveGroup"] },
-    { "before": ["<space>", "h"], "commands": ["workbench.action.focusLeftGroup"] },
-    { "before": ["<space>", "l"], "commands": ["workbench.action.focusRightGroup"] },
-    
-    { "before": ["<space>", ";"], "after": ["A", ";", "<Esc>"] },
-    { "before": ["<space>", "."], "after": ["A", ".", "<C-Space>"] },
-    { "before": ["<esc>", "<esc>"], "commands": ["editor.action.cancel"] },
-    { "before": ["<space>", "f"], "after": ["<C-;>"] },
-    { "before": ["<space>", "w"], "after": ["<C-A-;>"] }
-  ],
-
-  "vim.insertModeKeyBindings": [],
-
-  "vim.normalModeKeyBindings": [
-    { "before": ["H"], "after": ["^"] },
-    { "before": ["L"], "after": ["$"] },
-    { "before": ["D"], "after": ["d", "$"] },
-    { "before": ["Y"], "after": ["y", "$"] },
-    { "before": ["g", "o"], "after": ["o", "<Esc>", "k"] },
-    { "before": ["g", "O"], "after": ["O", "<Esc>", "j"] },
-    { "before": ["z", "k"], "after": ["O", "<Esc>", "j"] }
-  ],
-
-  "editor.lineNumbers": "relative",
-  "editor.scrollBeyondLastLine": false,
-  "editor.cursorBlinking": "solid",
-  "vim.useCtrlKeys": true,
-  "vim.highlightedyank.enable": true,
-  "vim.easymotion": true
+      { "before": ["<leader>", "v"], "commands": ["workbench.action.splitEditorRight"] },
+      { "before": ["<leader>", "h"], "commands": ["workbench.action.splitEditorDown"] },
+      { "before": ["<leader>", "z"], "commands": ["workbench.action.toggleZenMode"] },
+      { "before": ["<leader>", "p"], "commands": ["workbench.action.debug.selectandstart"] },
+      { "before": ["<leader>", "q"], "commands": ["workbench.action.closeAllEditors"] },
+      { "before": ["<leader>", "d"], "commands": ["workbench.action.debug.configure"] },
+      { "before": ["<leader>", "b"], "commands": ["bookmarks.toggle"] },
+      { "before": ["<leader>", "m", "m"], "commands": ["bookmarks.toggle"] },
+  
+      { "before": ["<space>", "s"], "commands": ["workbench.action.files.saveAll"] },
+      { "before": ["<space>", "o"], "commands": ["workbench.action.gotoSymbol"] },
+      { "before": ["<space>", "r"], "commands": ["editor.action.refactor"] },
+      { "before": ["<space>", "t"], "commands": ["editor.action.insertSnippet"] },
+      { "before": ["<space>", "y"], "commands": ["editor.emmet.action.wrapWithAbbreviation"] },
+      { "before": ["<space>", "e"], "commands": ["editor.debug.action.evaluate"] },
+      { "before": ["<space>", "d"], "commands": ["editor.action.showHover"] },
+      { "before": ["<space>", "b"], "commands": ["workbench.action.navigateBack"] },
+      { "before": ["<space>", "n"], "commands": ["workbench.action.navigateForward"] },
+      { "before": ["<space>", "g", "f"], "commands": ["prettier.format"] },
+  
+      { "before": ["<space>", "j"], "commands": ["workbench.action.focusBelowGroup"] },
+      { "before": ["<space>", "k"], "commands": ["workbench.action.focusAboveGroup"] },
+      { "before": ["<space>", "h"], "commands": ["workbench.action.focusLeftGroup"] },
+      { "before": ["<space>", "l"], "commands": ["workbench.action.focusRightGroup"] },
+      
+      { "before": ["<space>", ";"], "after": ["A", ";", "<Esc>"] },
+      { "before": ["<space>", "."], "after": ["A", ".", "<C-Space>"] },
+      { "before": ["<esc>", "<esc>"], "commands": ["editor.action.cancel"] },
+      { "before": ["<space>", "f"], "after": ["<C-;>"] },
+      { "before": ["<space>", "w"], "after": ["<C-A-;>"] }
+    ],
+  
+    "vim.insertModeKeyBindings": [],
+  
+    "vim.normalModeKeyBindings": [
+      { "before": ["H"], "after": ["^"] },
+      { "before": ["L"], "after": ["$"] },
+      { "before": ["D"], "after": ["d", "$"] },
+      { "before": ["Y"], "after": ["y", "$"] },
+      { "before": ["g", "o"], "after": ["o", "<Esc>", "k"] },
+      { "before": ["g", "O"], "after": ["O", "<Esc>", "j"] },
+      { "before": ["z", "k"], "after": ["O", "<Esc>", "j"] }
+    ],
+  
+    "editor.lineNumbers": "relative",
+    "editor.scrollBeyondLastLine": false,
+    "editor.cursorBlinking": "solid",
+    "vim.useCtrlKeys": true,
+    "vim.highlightedyank.enable": true,
+    "vim.easymotion": true,
+    "vim.easymotion.showKeyBindings": true
 }
-
-
-// Motion Command	Description
-// <leader><leader> s <char>	Search character
-// <leader><leader> f <char>	Find character forwards
-// <leader><leader> F <char>	Find character backwards
-// <leader><leader> t <char>	Til character forwards
-// <leader><leader> T <char>	Til character backwards
-// <leader><leader> w	Start of word forwards
-// <leader><leader> b	Start of word backwards
-// <leader><leader> l	Matches beginning & ending of word, camelCase, after _, and after # forwards
-// <leader><leader> h	Matches beginning & ending of word, camelCase, after _, and after # backwards
-// <leader><leader> e	End of word forwards
-// <leader><leader> ge	End of word backwards
-// <leader><leader> j	Start of line forwards
-// <leader><leader> k	Start of line backwards
-// <leader><leader> / <char>... <CR>	Search n-character
-// <leader><leader><leader> bdt	Til character
-// <leader><leader><leader> bdw	Start of word
-// <leader><leader><leader> bde	End of word
-// <leader><leader><leader> bdjk	Start of line
-// <leader><leader><leader> j	JumpToAnywhere motion; default behavior matches beginning & ending of word, camelCase, after _ and after #
-
-
-
