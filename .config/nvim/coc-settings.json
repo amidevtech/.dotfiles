@@ -1,0 +1,9 @@
+{
+    "java.completion.guessMethodArguments": true,
+    "java.signatureHelp.enabled": true,
+    "codeLens.enable": true,
+    "java.implementationsCodeLens.enabled": true,
+    "java.referencesCodeLens.enabled": true,
+    "typescript.referencesCodeLens.enable": true,
+    "typescript.implementationsCodeLens.enable": true
+}
