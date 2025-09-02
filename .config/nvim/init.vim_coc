@@ -1,9 +1,42 @@
-" Plug
-" curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+" ============================================================================
+" PORTABLE NEOVIM CONFIG FOR ANGULAR/JAVA/TYPESCRIPT DEVELOPMENT
+" ============================================================================
+" 
+" SETUP INSTRUCTIONS FOR NEW VPS:
+" 1. Copy this file to ~/.config/nvim/init.vim
+" 2. Install vim-plug:
+"    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 "    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+" 3. Open nvim and run: :PlugInstall
+" 4. Restart nvim and run: :CocInstall (extensions will auto-install)
+"
+" FEATURES INCLUDED:
+" - COC.nvim for Angular/Java/TypeScript LSP support
+" - Telescope for fuzzy finding
+" - Modern file explorer (nvim-tree)
+" - Git integration (fugitive, gitsigns, diffview)
+" - Testing support (neotest for Jest)
+" - Debugging support (DAP)
+" - Session management
+" - Harpoon for quick file navigation
+" - Gruvbox theme
+" - Optimized for remote development
+"
+" KEY BINDINGS:
+" Leader key: , (comma)
+" <leader>f  - Find git files
+" <leader>ha - Add file to harpoon
+" <leader>hh - Harpoon menu
+" <leader>1-4 - Jump to harpoon files
+" <space>e   - Toggle file explorer
+" <leader>gg - Git interface
+" <leader>tt - Run tests
+" <leader>zz - Zen mode
+" ============================================================================
 
-" WINDOWS
-"au VimEnter * GuiPopupmenu 0
+" Vim-Plug Installation:
+" curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+"    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 syntax on
 
@@ -37,10 +70,47 @@ set cmdheight=2
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
-set updatetime=50
+set updatetime=300
 
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
+
+" Performance optimizations for remote usage
+set lazyredraw
+set regexpengine=1
+set synmaxcol=300
+set ttyfast
+set timeoutlen=500
+set updatetime=250
+
+" Completion options for COC
+set completeopt=menu,menuone,noselect,noinsert
+set redrawtime=10000
+set maxmempattern=20000
+
+" Reduce visual clutter in remote environments
+set noshowcmd
+set noruler
+set laststatus=3
+
+" COC specific optimizations
+let g:coc_start_at_startup = 1
+let g:coc_config_home = '~/.config/nvim'
+let g:coc_data_home = '~/.config/coc'
+let g:coc_disable_startup_warning = 1
+
+" Optimize for large files
+set maxmempattern=2000
+let g:loaded_python_provider = 0
+let g:loaded_ruby_provider = 0
+let g:loaded_perl_provider = 0
+let g:loaded_node_provider = 0
+
+" Better remote performance
+set clipboard=
+if has('clipboard')
+  set clipboard=unnamedplus
+endif
 
 set colorcolumn=120
 highlight ColorColumn ctermbg=0 guibg=lightgrey
@@ -49,57 +119,91 @@ highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 
 call plug#begin()
+" Core functionality
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
-Plug 'vim-utils/vim-man'
 Plug 'mbbill/undotree'
-Plug 'sheerun/vim-polyglot'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
 
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-"Plug 'stsewd/fzf-checkout.vim'
-"Plug 'lvht/fzf-mru'
-Plug 'antoinemadec/coc-fzf'
+" Modern file finder (replacing fzf)
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.5' }
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
+" Gruvbox colorscheme
 Plug 'gruvbox-community/gruvbox'
 
-"Plug 'morhetz/gruvbox'
-"Plug 'lifepillar/vim-gruvbox8'
+" Modern file explorer (replacing NERDTree)
+Plug 'nvim-tree/nvim-tree.lua'
+Plug 'nvim-tree/nvim-web-devicons'
 
-Plug 'mhinz/vim-startify'
-Plug 'luochen1990/rainbow'
-Plug 'junegunn/limelight.vim'
-Plug 'tpope/vim-surround'
-Plug 'scrooloose/nerdtree'
-Plug 'junegunn/vim-plug'
-Plug 'amiorin/vim-project'
-"Plug 'easymotion/vim-easymotion'
-Plug 'justinmk/vim-sneak'
-Plug 'vim-airline/vim-airline'
-Plug 'junegunn/goyo.vim'
-Plug 'amix/vim-zenroom2'
-Plug 'Yggdroot/indentLine'
-Plug 'Townk/vim-autoclose'
-Plug 'prettier/vim-prettier'
+" Modern statusline (replacing airline)
+Plug 'nvim-lualine/lualine.nvim'
 
+" Movement and navigation
+Plug 'ggandor/leap.nvim'
+Plug 'folke/flash.nvim'
+
+" Auto-pairs and formatting
+Plug 'windwp/nvim-autopairs'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
+
+" Language Server and completion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-Plug 'HerringtonDarkholme/yats.vim'
-"Plug 'SirVer/ultisnips'
-Plug 'wesQ3/vim-windowswap'
-Plug 'troydm/zoomwintab.vim'
-
-Plug 'airblade/vim-rooter'
-Plug 'mhinz/vim-signify'
-
+" Modern syntax highlighting
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
+" Git integration
+Plug 'lewis6991/gitsigns.nvim'
+Plug 'tpope/vim-rhubarb'
 
-" Needed for Java dependency
-Plug 'uzxmx/vim-widgets'
+" Diagnostics and trouble
+Plug 'folke/trouble.nvim'
+
+" Which-key for keybinding discovery
+Plug 'folke/which-key.nvim'
+
+" Enhanced UI components
+Plug 'stevearc/dressing.nvim'
+Plug 'rcarriga/nvim-notify'
+
+" Workspace management
+Plug 'ahmedkhalf/project.nvim'
+
+" Session Management & Workspace
+Plug 'folke/persistence.nvim'
+Plug 'ThePrimeagen/harpoon'
+
+" Enhanced Git Workflow
+Plug 'sindrets/diffview.nvim'
+Plug 'TimUntersberger/neogit'
+Plug 'f-person/git-blame.nvim'
+
+" Testing & Debugging
+Plug 'nvim-neotest/nvim-nio'
+Plug 'nvim-neotest/neotest'
+Plug 'nvim-neotest/neotest-jest'
+Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
+
+" Essential tools only (for portability)
+Plug 'tpope/vim-commentary'
+Plug 'windwp/nvim-ts-autotag'
+
+" Simple Todo comments (lighter alternative)
+Plug 'folke/todo-comments.nvim'
+
+" Simple buffer management
+Plug 'akinsho/bufferline.nvim'
+
+" Focus mode (simple)
+Plug 'folke/zen-mode.nvim'"
+
+
 
 
 call plug#end()
@@ -112,6 +216,7 @@ let g:sneak#label = 1
 "let g:python2_host_prog = "/usr/local/bin/python"
 "let g:python3_host_prog = "/usr/local/bin/python3"
 
+" Gruvbox colorscheme
 colorscheme gruvbox
 set background=dark
 
@@ -150,28 +255,25 @@ let g:indent_guides_color_change_percent = 1
 let g:indent_guides_enable_on_vim_startup = 1
 
 let g:coc_global_extensions = [
-        \ 'coc-css',
-        \ 'coc-highlight',
-        \ 'coc-html',
-        \ 'coc-json',
-        \ 'coc-snippets',
-        \ 'coc-stylelint',
-        \ 'coc-tag',
-        \ 'coc-tsserver',
-        \ 'coc-prettier',
-        \ 'coc-eslint',
-        \ 'coc-tslint',
         \ 'coc-angular',
-        \ 'coc-marketplace',
+        \ 'coc-css',
+        \ 'coc-docker',
+        \ 'coc-emmet',
+        \ 'coc-eslint',
+        \ 'coc-git',
+        \ 'coc-html',
         \ 'coc-java',
-        \ 'coc-java-lombok',
-        \ 'coc-java-vimspector',
-        \ 'coc-java-dependency',
         \ 'coc-java-debug',
+        \ 'coc-json',
+        \ 'coc-marketplace',
+        \ 'coc-prettier',
+        \ 'coc-sh',
+        \ 'coc-snippets',
+        \ 'coc-tsserver',
+        \ 'coc-vimlsp',
+        \ 'coc-xml',
+        \ 'coc-yaml',
         \ 'coc-yank',
-        \ 'coc-terminal',
-        \ 'coc-diagnostic',
-        \ 'coc-imselect',
         \ ]
 
 
@@ -180,10 +282,10 @@ let g:coc_global_extensions = [
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
+      \ coc#pum#visible() ? coc#pum#next(1) :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -193,7 +295,7 @@ endfunction
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Or use `complete_info` if your vim support it, like:
@@ -236,10 +338,9 @@ nmap <leader>c <Plug>(coc-terminal-toggle)
 " COC end SETUP
 " -----------------------------------------------------------------------------
 
-" Nerd Tree options
-let NERDTreeShowHidden=1  "  Always show dot files
-let NERDTreeQuitOnOpen=1
-let g:NERDTreeWinSize=51
+" Nvim-tree setup (modern file explorer)
+let g:loaded_netrw = 1
+let g:loaded_netrwPlugin = 1
 
 """ MAPPINGS
 let mapleader=','
@@ -281,15 +382,29 @@ map <leader>f :Telescope git_files<CR>
 map <Leader>e :Telescope buffers<CR>
 map <leader>t :Telescope live_grep<CR>;
 map <leader>m :Telescope marks<CR>
-map <space>f :Telescope current_buffer_fuzzy_find<CR>
+nnoremap <space>f :Telescope current_buffer_fuzzy_find<CR>
 
 map <leader>gc :Telescope git_commits<CR>
-map <leader>gbc :Telescope git_bcomits<CR>
+map <leader>gbc :Telescope git_bcommits<CR>
 map <leader>gb :Telescope git_branches<CR>
+
+" Trouble keybindings
+nnoremap <leader>xx <cmd>Trouble<cr>
+nnoremap <leader>xw <cmd>Trouble workspace_diagnostics<cr>
+nnoremap <leader>xd <cmd>Trouble document_diagnostics<cr>
+nnoremap <leader>xl <cmd>Trouble loclist<cr>
+nnoremap <leader>xq <cmd>Trouble quickfix<cr>
+nnoremap gR <cmd>Trouble lsp_references<cr>
+
+" Modern file explorer
+nnoremap <space>e :NvimTreeToggle<CR>
+nnoremap <leader>ee :NvimTreeFocus<CR>
 
 
 nnoremap <leader>x :close<CR>
-map <Leader>w  :NERDTreeFind<CR>
+" File explorer
+map <Leader>w  :NvimTreeFindFile<CR>
+nnoremap <C-n> :NvimTreeToggle<CR>
 map <leader>n :bn<CR>
 map <leader>p :bp<CR>
 map <Leader>q :Goyo 120<CR>;
@@ -322,26 +437,146 @@ map <space>al :ALEFix<CR>
 "map  <space><space>w <Plug>(easymotion-bd-w)
 "nmap <space><space>w <Plug>(easymotion-overwin-w)
 
-nmap <space>gd <Plug>(coc-definition)
-nmap <space>gy <Plug>(coc-type-definition)
-nmap <space>gi <Plug>(coc-implementation)
-nmap <space>gr <Plug>(coc-references)
-nmap <space>rr <Plug>(coc-rename)
+" LSP Navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" LSP Actions
+nmap <leader>rn <Plug>(coc-rename)
 nmap <silent> <space>[ <Plug>(coc-diagnostic-prev)
 nmap <silent> <space>] <Plug>(coc-diagnostic-next)
-nnoremap <silent> <space>d :call <SID>show_documentation()<CR>
-" Remap for format selected region
-xmap <space>fs  <Plug>(coc-format-selected)
-nmap <space>fs  <Plug>(coc-format-selected)
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+" Formatting
+xmap <leader>fm <Plug>(coc-format-selected)
+nmap <leader>fm <Plug>(coc-format-selected)
 nmap <space>ff :Format<CR>
-nmap <space>fl :CocFix<CR>
-nmap <space>fi :OR<CR>
-"
-" Fix autofix problem of current line
-nmap <space>qf  <Plug>(coc-fix-current)
-xmap <space>as  <Plug>(coc-codeaction-selected)
-nmap <space>as  <Plug>(coc-codeaction-selected)
-nmap <space>ac  <Plug>(coc-codeaction)
+
+" Code Actions
+nmap <space>qf <Plug>(coc-fix-current)
+xmap <space>ca <Plug>(coc-codeaction-selected)
+nmap <space>ca <Plug>(coc-codeaction)
+nmap <space>cl <Plug>(coc-codeaction-line)
+
+" Organize imports
+nmap <space>io :OR<CR>
+
+" Enhanced Angular/TypeScript Development Keybindings
+nmap <leader>af :CocCommand eslint.executeAutofix<CR>
+nmap <leader>ao :CocCommand tsserver.organizeImports<CR>
+nmap <leader>ai :CocCommand typescript.addMissingImports<CR>
+nmap <leader>ar :CocCommand typescript.goToSourceDefinition<CR>
+nmap <leader>as :CocCommand tsserver.restart<CR>
+nmap <leader>ac :CocCommand angular.restartNgServer<CR>
+nmap <leader>at :CocCommand typescript.selectTypeScriptVersion<CR>
+
+" Enhanced Java Development Keybindings
+nmap <leader>jo :CocCommand java.action.organizeImports<CR>
+nmap <leader>jc :CocCommand java.clean.workspace<CR>
+nmap <leader>ju :CocCommand java.updateLanguageServer<CR>
+nmap <leader>jt :CocCommand java.test.generateTests<CR>
+nmap <leader>jr :CocCommand java.action.generateConstructors<CR>
+nmap <leader>jg :CocCommand java.action.generateGetterSetter<CR>
+nmap <leader>jd :CocCommand java.action.generateDelegateMethod<CR>
+nmap <leader>js :CocCommand java.project.refreshProjects<CR>
+
+" Quick Angular component/service generation
+nmap <leader>ng :terminal ng generate component 
+nmap <leader>ns :terminal ng generate service 
+nmap <leader>nm :terminal ng generate module 
+
+" Quick project navigation shortcuts
+nnoremap <leader>pf :Telescope find_files<CR>
+nnoremap <leader>pg :Telescope live_grep<CR>
+nnoremap <leader>pb :Telescope buffers<CR>
+nnoremap <leader>pr :Telescope oldfiles<CR>
+nnoremap <leader>ps :Telescope git_status<CR>
+nnoremap <leader>pp :Telescope projects<CR>
+
+" ===== NEW ENHANCED WORKFLOW KEYBINDINGS =====
+
+" Harpoon Quick Navigation (Super fast file switching)
+nnoremap <leader>ha :lua require("harpoon.mark").add_file()<CR>
+nnoremap <leader>hh :lua require("harpoon.ui").toggle_quick_menu()<CR>
+nnoremap <leader>1 :lua require("harpoon.ui").nav_file(1)<CR>
+nnoremap <leader>2 :lua require("harpoon.ui").nav_file(2)<CR>
+nnoremap <leader>3 :lua require("harpoon.ui").nav_file(3)<CR>
+nnoremap <leader>4 :lua require("harpoon.ui").nav_file(4)<CR>
+
+" Session Management
+nnoremap <leader>ss :lua require("persistence").load()<CR>
+nnoremap <leader>sl :lua require("persistence").load({ last = true })<CR>
+nnoremap <leader>sd :lua require("persistence").stop()<CR>
+
+" Enhanced Git Workflow
+nnoremap <leader>gd :DiffviewOpen<CR>
+nnoremap <leader>gh :DiffviewFileHistory<CR>
+nnoremap <leader>gq :DiffviewClose<CR>
+nnoremap <leader>gg :Neogit<CR>
+nnoremap <leader>gl :Neogit log<CR>
+nnoremap <leader>gp :Neogit push<CR>
+nnoremap <leader>gpu :Neogit pull<CR>
+nnoremap <leader>gtb :GitBlameToggle<CR>
+
+" Testing (Neotest)
+nnoremap <leader>tt :lua require("neotest").run.run()<CR>
+nnoremap <leader>tf :lua require("neotest").run.run(vim.fn.expand("%"))<CR>
+nnoremap <leader>td :lua require("neotest").run.run({strategy = "dap"})<CR>
+nnoremap <leader>ts :lua require("neotest").summary.toggle()<CR>
+nnoremap <leader>to :lua require("neotest").output.open({ enter = true })<CR>
+
+" Debugging (DAP)
+nnoremap <leader>db :lua require'dap'.toggle_breakpoint()<CR>
+nnoremap <leader>dc :lua require'dap'.continue()<CR>
+nnoremap <leader>di :lua require'dap'.step_into()<CR>
+nnoremap <leader>do :lua require'dap'.step_over()<CR>
+nnoremap <leader>dr :lua require'dap'.repl.open()<CR>
+nnoremap <leader>dl :lua require'dap'.run_last()<CR>
+nnoremap <leader>du :lua require'dapui'.toggle()<CR>
+
+" Simple commenting (using vim-commentary)
+nnoremap <leader>cc :Commentary<CR>
+vnoremap <leader>cc :Commentary<CR>
+
+" Simple search and replace (built-in Vim)
+nnoremap <leader>sr :%s/\<<C-r><C-w>\>//g<Left><Left>
+vnoremap <leader>sr "hy:%s/<C-r>h//g<left><left>
+
+" Todo Comments
+nnoremap <leader>td :TodoTelescope<CR>
+nnoremap <leader>tq :TodoQuickFix<CR>
+nnoremap <leader>tl :TodoLocList<CR>
+
+" Buffer Management (Bufferline)
+nnoremap <leader>bp :BufferLinePick<CR>
+nnoremap <leader>bc :BufferLinePickClose<CR>
+nnoremap <leader>bl :BufferLineCloseLeft<CR>
+nnoremap <leader>br :BufferLineCloseRight<CR>
+nnoremap <leader>bo :BufferLineCloseOthers<CR>
+nnoremap <Tab> :BufferLineCycleNext<CR>
+nnoremap <S-Tab> :BufferLineCyclePrev<CR>
+
+" Zen Mode for Focus
+nnoremap <leader>zz :ZenMode<CR>
+
+" Quick Format with new keybinding
+nnoremap <leader>fmt :Format<CR>
+
+" Angular CLI shortcuts (enhanced)
+nnoremap <leader>ngc :terminal ng generate component 
+nnoremap <leader>ngs :terminal ng generate service 
+nnoremap <leader>ngm :terminal ng generate module 
+nnoremap <leader>ngd :terminal ng generate directive 
+nnoremap <leader>ngp :terminal ng generate pipe 
+nnoremap <leader>ngg :terminal ng generate guard 
+nnoremap <leader>ngi :terminal ng generate interface 
+nnoremap <leader>nge :terminal ng generate enum 
+
+" Quick commands
+nnoremap <leader>qf :lua vim.lsp.buf.code_action()<CR>
+nnoremap <leader>qr :lua vim.lsp.buf.rename()<CR>"
 
 " Use CTRL-S for selections ranges.
 " Requires 'textDocument/selectionRange' support of language server.
@@ -351,8 +586,8 @@ xmap <silent> <C-s> <Plug>(coc-range-select)
 
 " Using CocList
 " Find symbol of current document
-nnoremap <silent> <space>o  :CocFzfList outline<cr>
-nnoremap <silent> <leader>l  :CocFzfList<cr>
+nnoremap <silent> <space>o  :CocList outline<cr>
+nnoremap <silent> <leader>l  :CocList<cr>
 " Search workspace symbols
 nnoremap <silent> <leader>s  :<c-u>CocList -I symbols<cr>
 " resume latest coc list
@@ -377,15 +612,632 @@ map <space>me mE
 map me `E
 
 
-map <leader><leader>ju :CocCommand java.updateLanguageServer<cr>
+" Java Development Commands
+command! -nargs=0 JavaUpdateLS :CocCommand java.updateLanguageServer
+command! -nargs=0 JavaCleanWS :CocCommand java.clean.workspace
+command! -nargs=0 JavaUpdateConfig :CocCommand java.projectConfiguration.update
+
+" Angular/TypeScript Development Commands  
+command! -nargs=0 TSOrganizeImports :CocCommand tsserver.organizeImports
+command! -nargs=0 TSAddMissingImports :CocCommand typescript.addMissingImports
+command! -nargs=0 ESLintFix :CocCommand eslint.executeAutofix
+
+" Additional useful COC commands
+map <leader><leader>ju :JavaUpdateLS<cr>
 map <leader><leader>jl :CocCommand workspace.showOutput java<cr>
-map <leader><leader>cw :CocCommand java.clean.workspace<cr>
+map <leader><leader>cw :JavaCleanWS<cr>
 map <leader><leader>jsl :CocCommand java.open.serverLog<cr>
-map <leader><leader>uu :CocCommand java.projectConfiguration.update<cr>;
+map <leader><leader>uu :JavaUpdateConfig<cr>
+
+" COC Extensions management
+nnoremap <silent> <leader>ce :CocCommand extensions.toggleExtension 
+nnoremap <silent> <leader>ci :CocInstall 
+nnoremap <silent> <leader>cu :CocUpdate<cr>
+nnoremap <silent> <leader>cr :CocRestart<cr>
 
 "let g:rooter_patterns = ['.git', 'hot-app']
 
 
-lua require'nvim-treesitter.configs'.setup { ensure_installed = "maintained", highlight = {enable = true, disable = { },},}
+" Modern Neovim Lua Configuration
+lua << EOF
+-- Enable Neovim's built-in module loader (replaces impatient.nvim)
+if vim.loader then
+  vim.loader.enable()
+end
 
-lua local actions = require('telescope.actions') require('telescope').setup{ defaults = { mappings = { i = { ["<esc>"] = actions.close }, }, } }
+-- Modern Treesitter Configuration
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = { 
+    "java", "javascript", "typescript", "html", "css", "scss", "json", 
+    "yaml", "markdown", "bash", "vim", "lua", "tsx"
+  },
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
+  indent = {
+    enable = true,
+  },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "<C-space>",
+      node_incremental = "<C-space>",
+      scope_incremental = "<C-s>",
+      node_decremental = "<M-space>",
+    },
+  },
+  textobjects = {
+    select = {
+      enable = true,
+      lookahead = true,
+      keymaps = {
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+      },
+    },
+  },
+}
+
+-- Modern Telescope Configuration
+local telescope = require('telescope')
+local actions = require('telescope.actions')
+
+telescope.setup{
+  defaults = {
+    prompt_prefix = "🔍 ",
+    selection_caret = "➤ ",
+    mappings = {
+      i = {
+        ["<esc>"] = actions.close,
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+      },
+      n = {
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+      },
+    },
+    file_ignore_patterns = { 
+      "node_modules", ".git", "dist", "build", "target", "*.class", "*.jar"
+    },
+    layout_config = {
+      horizontal = {
+        preview_width = 0.6,
+      },
+    },
+  },
+  pickers = {
+    find_files = {
+      theme = "dropdown",
+      previewer = false,
+    },
+    live_grep = {
+      additional_args = function(opts)
+        return {"--hidden"}
+      end
+    },
+  },
+  extensions = {
+    fzf = {
+      fuzzy = true,
+      override_generic_sorter = true,
+      override_file_sorter = true,
+      case_mode = "smart_case",
+    }
+  }
+}
+
+-- Load telescope extensions
+telescope.load_extension('fzf')
+
+-- Nvim-tree Configuration (modern file explorer)
+require("nvim-tree").setup({
+  sort_by = "case_sensitive",
+  view = {
+    width = 30,
+    mappings = {
+      list = {
+        { key = "u", action = "dir_up" },
+      },
+    },
+  },
+  renderer = {
+    group_empty = true,
+    icons = {
+      show = {
+        file = true,
+        folder = true,
+        folder_arrow = true,
+        git = true,
+      },
+    },
+  },
+  filters = {
+    dotfiles = false,
+    custom = { "^.git$", "node_modules", ".cache" },
+  },
+  git = {
+    enable = true,
+    ignore = false,
+    timeout = 500,
+  },
+})
+
+-- Lualine Configuration (modern statusline)
+require('lualine').setup {
+  options = {
+    icons_enabled = true,
+    theme = 'gruvbox',
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {},
+    always_divide_middle = true,
+    globalstatus = true,
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', {'diagnostics', sources={'coc'}}},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  extensions = {}
+}
+
+-- Gitsigns Configuration
+require('gitsigns').setup {
+  signs = {
+    add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+    change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    delete       = {hl = 'GitSignsDelete', text = '_', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+  },
+  numhl = false,
+  linehl = false,
+  watch_gitdir = {
+    interval = 1000,
+    follow_files = true
+  },
+  current_line_blame = true,
+  current_line_blame_opts = {
+    virt_text = true,
+    virt_text_pos = 'eol',
+    delay = 1000,
+  },
+}
+
+-- Trouble Configuration for better diagnostics
+require("trouble").setup {
+  position = "bottom",
+  height = 10,
+  width = 50,
+  icons = true,
+  mode = "workspace_diagnostics",
+  fold_open = "",
+  fold_closed = "",
+  group = true,
+  padding = true,
+  action_keys = {
+    close = "q",
+    cancel = "<esc>",
+    refresh = "r",
+    jump = {"<cr>", "<tab>"},
+    open_split = { "<c-x>" },
+    open_vsplit = { "<c-v>" },
+    open_tab = { "<c-t>" },
+    jump_close = {"o"},
+    toggle_mode = "m",
+    toggle_preview = "P",
+    hover = "K",
+    preview = "p",
+    close_folds = {"zM", "zm"},
+    open_folds = {"zR", "zr"},
+    toggle_fold = {"zA", "za"},
+    previous = "k",
+    next = "j"
+  },
+  indent_lines = true,
+  auto_open = false,
+  auto_close = false,
+  auto_preview = true,
+  auto_fold = false,
+  auto_jump = {"lsp_definitions"},
+  signs = {
+    error = "",
+    warning = "",
+    hint = "",
+    information = "",
+    other = "﫠"
+  },
+  use_diagnostic_signs = false
+}
+
+-- Which-key Configuration
+require("which-key").setup {
+  plugins = {
+    spelling = {
+      enabled = true,
+      suggestions = 20,
+    },
+  },
+}
+
+-- Project Configuration
+require("project_nvim").setup {
+  manual_mode = false,
+  detection_methods = { "lsp", "pattern" },
+  patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json", "pom.xml", "angular.json" },
+  ignore_lsp = {},
+  exclude_dirs = {},
+  show_hidden = false,
+  silent_chdir = true,
+  scope_chdir = 'global',
+  datapath = vim.fn.stdpath("data"),
+}
+
+-- Autopairs Configuration
+require("nvim-autopairs").setup {}
+
+-- Dressing Configuration (better UI)
+require('dressing').setup({
+  input = {
+    enabled = true,
+    default_prompt = "Input:",
+    prompt_align = "left",
+    insert_only = true,
+    start_in_insert = true,
+    border = "rounded",
+    relative = "cursor",
+    prefer_width = 40,
+    width = nil,
+    max_width = { 140, 0.9 },
+    min_width = { 20, 0.2 },
+  },
+  select = {
+    enabled = true,
+    backend = { "telescope", "fzf_lua", "fzf", "builtin", "nui" },
+    trim_prompt = true,
+    telescope = require('telescope.themes').get_dropdown({}),
+  },
+})
+
+-- Notify Configuration
+require("notify").setup({
+  background_colour = "#000000",
+  fps = 30,
+  icons = {
+    DEBUG = "",
+    ERROR = "",
+    INFO = "",
+    TRACE = "✎",
+    WARN = ""
+  },
+  level = 2,
+  minimum_width = 50,
+  render = "default",
+  stages = "fade_in_slide_out",
+  timeout = 5000,
+  top_down = true
+})
+
+-- Leap Configuration (modern movement)
+require('leap').add_default_mappings()
+
+-- Flash Configuration (enhanced f/t motions)
+require("flash").setup({
+  labels = "asdfghjklqwertyuiopzxcvbnm",
+  search = {
+    multi_window = true,
+    forward = true,
+    wrap = true,
+    incremental = false,
+  },
+  jump = {
+    jumplist = true,
+    pos = "start",
+    history = false,
+    register = false,
+    nohlsearch = false,
+    autojump = false,
+  },
+  label = {
+    uppercase = true,
+    exclude = "",
+    current = true,
+    after = true,
+    before = false,
+    style = "overlay",
+    reuse = "lowercase",
+  },
+  highlight = {
+    backdrop = true,
+    matches = true,
+    priority = 5000,
+    groups = {
+      match = "FlashMatch",
+      current = "FlashCurrent",
+      backdrop = "FlashBackdrop",
+      label = "FlashLabel",
+    },
+  },
+})
+
+-- Session Management Configuration
+require("persistence").setup {
+  dir = vim.fn.expand(vim.fn.stdpath("state") .. "/sessions/"),
+  options = { "buffers", "curdir", "tabpages", "winsize" }
+}
+
+-- Harpoon Configuration (Quick file navigation)
+require("harpoon").setup({
+  global_settings = {
+    save_on_toggle = false,
+    save_on_change = true,
+    enter_on_sendcmd = false,
+    tmux_autoclose_windows = false,
+    excluded_filetypes = { "harpoon" }
+  }
+})
+
+-- Diffview Configuration (Better git diff)
+require("diffview").setup({
+  diff_binaries = false,
+  enhanced_diff_hl = false,
+  git_cmd = { "git" },
+  use_icons = true,
+  show_help_hints = true,
+  watch_index = true,
+  icons = {
+    folder_closed = "",
+    folder_open = "",
+  },
+  signs = {
+    fold_closed = "",
+    fold_open = "",
+    done = "✓",
+  },
+})
+
+-- Neogit Configuration (Magit-like git interface)
+require('neogit').setup {
+  disable_signs = false,
+  disable_hint = false,
+  disable_context_highlighting = false,
+  disable_commit_confirmation = false,
+  auto_refresh = true,
+  sort_branches = "-committerdate",
+  disable_builtin_notifications = false,
+  use_magit_keybindings = false,
+  commit_popup = {
+    kind = "split",
+  },
+  popup = {
+    kind = "split",
+  },
+  signs = {
+    section = { "", "" },
+    item = { "", "" },
+    hunk = { "", "" },
+  },
+  integrations = {
+    diffview = true
+  }
+}
+
+-- Git Blame Configuration
+require('gitblame').setup {
+  enabled = true,
+  message_template = ' <summary> • <date> • <author>',
+  date_format = '%m/%d/%y',
+  virtual_text_column = 1,
+}
+
+-- Neotest Configuration (Test runner)
+require("neotest").setup({
+  adapters = {
+    require("neotest-jest")({
+      jestCommand = "npm test --",
+      jestConfigFile = "custom.jest.config.ts",
+      env = { CI = true },
+      cwd = function(path)
+        return vim.fn.getcwd()
+      end,
+    }),
+  }
+})
+
+-- DAP Configuration (Debugging)
+local dap = require('dap')
+local dapui = require('dapui')
+
+dapui.setup()
+
+dap.listeners.after.event_initialized["dapui_config"] = function()
+  dapui.open()
+end
+dap.listeners.before.event_terminated["dapui_config"] = function()
+  dapui.close()
+end
+dap.listeners.before.event_exited["dapui_config"] = function()
+  dapui.close()
+end
+
+-- Node.js debugging setup
+dap.adapters.node2 = {
+  type = 'executable',
+  command = 'node',
+  args = {os.getenv('HOME') .. '/dev/microsoft/vscode-node-debug2/out/src/nodeDebug.js'},
+}
+dap.configurations.javascript = {
+  {
+    name = 'Launch',
+    type = 'node2',
+    request = 'launch',
+    program = '${file}',
+    cwd = vim.fn.getcwd(),
+    sourceMaps = true,
+    protocol = 'inspector',
+    console = 'integratedTerminal',
+  },
+  {
+    name = 'Attach to process',
+    type = 'node2',
+    request = 'attach',
+    processId = require'dap.utils'.pick_process,
+  },
+}
+
+-- Auto-tag Configuration (simple setup)
+pcall(require, 'nvim-ts-autotag')
+
+-- Todo Comments Configuration
+require("todo-comments").setup {
+  signs = true,
+  sign_priority = 8,
+  keywords = {
+    FIX = {
+      icon = " ",
+      color = "error",
+      alt = { "FIXME", "BUG", "FIXIT", "ISSUE" },
+    },
+    TODO = { icon = " ", color = "info" },
+    HACK = { icon = " ", color = "warning" },
+    WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+    PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+    NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+    TEST = { icon = "⏲ ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+  },
+  gui_style = {
+    fg = "NONE",
+    bg = "BOLD",
+  },
+  merge_keywords = true,
+  highlight = {
+    multiline = true,
+    multiline_pattern = "^.",
+    multiline_context = 10,
+    before = "",
+    keyword = "wide",
+    after = "fg",
+    pattern = [[.*<(KEYWORDS)\s*:]],
+    comments_only = true,
+    max_line_len = 400,
+    exclude = {},
+  },
+  colors = {
+    error = { "DiagnosticError", "ErrorMsg", "#DC2626" },
+    warning = { "DiagnosticWarn", "WarningMsg", "#FBBF24" },
+    info = { "DiagnosticInfo", "#2563EB" },
+    hint = { "DiagnosticHint", "#10B981" },
+    default = { "Identifier", "#7C3AED" },
+    test = { "Identifier", "#FF006E" }
+  },
+  search = {
+    command = "rg",
+    args = {
+      "--color=never",
+      "--no-heading",
+      "--with-filename",
+      "--line-number",
+      "--column",
+    },
+    pattern = [[\b(KEYWORDS):]], 
+  },
+}
+
+-- Bufferline Configuration
+require("bufferline").setup{
+    options = {
+        mode = "buffers",
+        numbers = "none",
+        close_command = "bdelete! %d",
+        right_mouse_command = "bdelete! %d",
+        left_mouse_command = "buffer %d",
+        middle_mouse_command = nil,
+        indicator = {
+            icon = '▎',
+            style = 'icon',
+        },
+        buffer_close_icon = '',
+        modified_icon = '●',
+        close_icon = '',
+        left_trunc_marker = '',
+        right_trunc_marker = '',
+        max_name_length = 30,
+        max_prefix_length = 30,
+        tab_size = 21,
+        diagnostics = "coc",
+        diagnostics_update_in_insert = false,
+        offsets = {
+            {
+                filetype = "NvimTree",
+                text = "File Explorer",
+                text_align = "left",
+                separator = true
+            }
+        },
+        color_icons = true,
+        show_buffer_icons = true,
+        show_buffer_close_icons = true,
+        show_close_icon = true,
+        show_tab_indicators = true,
+        persist_buffer_sort = true,
+        separator_style = "slant",
+        enforce_regular_tabs = true,
+        always_show_bufferline = true,
+        sort_by = 'insert_after_current'
+    }
+}
+
+EOF
+
+" Simple indent guides (built-in Vim settings)
+set list
+set listchars=tab:→\ ,trail:·,nbsp:␣
+
+lua << EOF
+
+-- Zen Mode Configuration
+require("zen-mode").setup {
+  window = {
+    backdrop = 0.95,
+    width = 120,
+    height = 1,
+    options = {
+      signcolumn = "no",
+      number = false,
+      relativenumber = false,
+      cursorline = false,
+      cursorcolumn = false,
+      foldcolumn = "0",
+      list = false,
+    },
+  },
+  plugins = {
+    options = {
+      enabled = true,
+      ruler = false,
+      showcmd = false,
+    },
+    twilight = { enabled = true },
+    gitsigns = { enabled = false },
+    tmux = { enabled = false },
+  },
+}
+EOF

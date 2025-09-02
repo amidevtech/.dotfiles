@@ -1,9 +1,107 @@
 {
+    // Global COC Settings
+    "suggest.noselect": false,
+    "suggest.enablePreselect": false,
+    "suggest.enablePreview": true,
+    "suggest.maxCompleteItemCount": 20,
+    "suggest.timeout": 5000,
+    "diagnostic.displayByAle": false,
+    "diagnostic.refreshOnInsertMode": false,
+    "diagnostic.refreshAfterSave": false,
+    "diagnostic.checkCurrentLine": true,
+    "codeLens.enable": true,
+    "signature.enable": true,
+    "signature.target": "float",
+
+    // Java Language Server Settings
     "java.completion.guessMethodArguments": true,
     "java.signatureHelp.enabled": true,
-    "codeLens.enable": true,
     "java.implementationsCodeLens.enabled": true,
     "java.referencesCodeLens.enabled": true,
+    "java.completion.enabled": true,
+    "java.completion.overwrite": true,
+    "java.completion.includeDecompiledSources": true,
+    "java.maven.downloadSources": true,
+    "java.gradle.downloadSources": true,
+    "java.format.enabled": true,
+    "java.import.gradle.enabled": true,
+    "java.import.maven.enabled": true,
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"
+    ],
+    "java.debug.settings.enableRunDebugCodeLens": true,
+
+    // TypeScript/JavaScript Settings
     "typescript.referencesCodeLens.enable": true,
-    "typescript.implementationsCodeLens.enable": true
+    "typescript.implementationsCodeLens.enable": true,
+    "typescript.preferences.quoteStyle": "single",
+    "typescript.suggest.autoImports": true,
+    "typescript.suggest.completeFunctionCalls": true,
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "typescript.preferences.includePackageJsonAutoImports": "auto",
+    "javascript.suggest.autoImports": true,
+    "javascript.suggest.completeFunctionCalls": true,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+
+    // Angular Settings
+    "html.suggest.angular1": false,
+    "html.suggest.ionic": false,
+    "angular.enable-experimental-ivy-prompt": false,
+    "angular.experimental-ivy": true,
+
+    // ESLint Settings
+    "eslint.enable": true,
+    "eslint.filetypes": ["javascript", "typescript", "typescriptreact", "javascriptreact"],
+    "eslint.autoFixOnSave": true,
+
+    // Prettier Settings
+    "prettier.enable": true,
+    "prettier.eslintIntegration": true,
+    "prettier.tslintIntegration": true,
+    "prettier.singleQuote": true,
+    "prettier.tabWidth": 2,
+    "prettier.semi": true,
+    "prettier.trailingComma": "es5",
+
+    // CSS Settings
+    "css.validate": true,
+    "scss.validate": true,
+    "less.validate": true,
+    "css.hover.documentation": true,
+    "css.hover.references": true,
+
+    // HTML Settings
+    "html.format.enable": true,
+    "html.autoClosingTags": true,
+    "html.suggest.html5": true,
+
+    // JSON Settings
+    "json.format.enable": true,
+    "json.schemas": [],
+
+    // Explorer Settings (COC Explorer)
+    "explorer.width": 40,
+    "explorer.icon.enableNerdfont": true,
+    "explorer.previewAction.onHover": false,
+    "explorer.keyMappings.global": {
+        "<cr>": ["expandable?", "expand", "open"],
+        "v": "open:vsplit"
+    },
+
+    // Git Settings
+    "git.enableGutters": true,
+    "git.branchCharacter": "\uf418",
+    "git.addGBlameToBufferVar": true,
+    "git.addGBlameToVirtualText": true,
+    "git.virtualTextPrefix": " ",
+
+    // Snippets Settings
+    "snippets.userSnippetsDirectory": "~/.config/nvim/snippets",
+    "snippets.extends": {
+        "javascriptreact": ["javascript"],
+        "typescriptreact": ["typescript"]
+    },
+
+    // Language Server Protocol Settings
+    "languageserver": {}
 }

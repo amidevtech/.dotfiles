@@ -1,0 +1,749 @@
+" Plug
+"
+" curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+"    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+" Jdtls launcher https://github.com/eruizc-dev/jdtls-launcher
+
+" WINDOWS
+"au VimEnter * GuiPopupmenu 0
+
+
+" Make cursor change on terminal
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+
+
+syntax on
+
+"set guicursor=
+set relativenumber
+set nohlsearch
+set hidden
+set noerrorbells
+set tabstop=4 softtabstop=4
+set shiftwidth=4
+set expandtab
+set smartindent
+set nu
+set nowrap
+set smartcase
+set noswapfile
+set nobackup
+set undodir=~/.config/nvim/undodir
+set undofile
+set incsearch
+set termguicolors
+set scrolloff=8
+set noshowmode
+
+" Give more space for displaying messages.
+set cmdheight=2
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=50
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+set colorcolumn=120
+highlight ColorColumn ctermbg=0 guibg=lightgrey
+ 
+call plug#begin()
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
+Plug 'vim-utils/vim-man'
+Plug 'mbbill/undotree'
+"Plug 'sheerun/vim-polyglot'
+Plug 'machakann/vim-highlightedyank'
+"Plug 'gruvbox-community/gruvbox'
+Plug 'morhetz/gruvbox'
+Plug 'mhinz/vim-startify'
+Plug 'luochen1990/rainbow'
+Plug 'junegunn/limelight.vim'
+Plug 'tpope/vim-surround'
+Plug 'scrooloose/nerdtree'
+Plug 'junegunn/vim-plug'
+Plug 'amiorin/vim-project'
+"Plug 'dbakker/vim-projectroot'
+"Plug 'easymotion/vim-easymotion'
+"Plug 'justinmk/vim-sneak'
+Plug 'phaazon/hop.nvim'
+Plug 'vim-airline/vim-airline'
+Plug 'junegunn/goyo.vim'
+Plug 'amix/vim-zenroom2'
+Plug 'Yggdroot/indentLine'
+Plug 'Townk/vim-autoclose'
+Plug 'prettier/vim-prettier'
+
+Plug 'vim-test/vim-test'
+
+Plug 'wesQ3/vim-windowswap'
+Plug 'troydm/zoomwintab.vim'
+
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
+
+Plug 'RishabhRD/popfix'
+Plug 'RishabhRD/nvim-lsputils'
+
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'mfussenegger/nvim-jdtls'
+
+" CMP
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-path'
+" For vsnip users.
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
+
+Plug 'onsails/lspkind-nvim'
+
+" Additional LSP enhancements
+Plug 'folke/trouble.nvim'
+Plug 'simrat39/symbols-outline.nvim'
+
+Plug 'ThePrimeagen/harpoon'
+
+" DODAC LSP SAGA
+Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
+Plug 'ray-x/lsp_signature.nvim'
+
+
+
+Plug 'maxbrunsfeld/vim-yankstack'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
+
+" AI Complete
+Plug 'github/copilot.vim'
+Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
+
+call plug#end()
+
+"  VIM TEST
+let test#project_root = "/Users/phazo/projects/opentangarine/hot/hot-app"
+let test#strategy = "neovim"
+
+colorscheme gruvbox
+set background=dark
+
+if executable('rg')
+    let g:rg_derive_root='true'
+endif
+
+" :Rainbow parentheses
+let g:rainbow_active = 1 
+
+" ---------------
+" Mouse
+" ---------------
+set mousehide  " Hide mouse after chars typed
+set mouse=a    " Mouse in all modes
+
+" Better complete options to speed it up
+set complete=.,w,b,u,U 
+  
+let loaded_matchparen = 1
+  
+" Integrate with system clipboard
+set clipboard=unnamedplus,unnamed
+
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
+let $FZF_DEFAULT_OPTS='--reverse'
+
+
+autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript
+autocmd FileType tex setl updatetime=1
+
+let g:indent_guides_guide_size = 1
+let g:indent_guides_color_change_percent = 1
+let g:indent_guides_enable_on_vim_startup = 1
+
+" Nerd Tree options
+let NERDTreeShowHidden=1  "  Always show dot files
+let NERDTreeQuitOnOpen=1
+
+""" MAPPINGS
+let mapleader=','
+
+" Mappings
+
+noremap H ^
+noremap L $
+"nnoremap D d$
+" Primegegen Remaps
+nnoremap Y y$
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap J mzJ`z
+
+inoremap , ,<c-g>u
+inoremap ; ;<c-g>u
+
+" Move visualy marked text
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+nnoremap go o<Esc>k
+nnoremap gO O<Esc>j
+nmap zk O<Esc>j  
+nnoremap gj 15gjzz
+nnoremap gk 15gkzz
+vnoremap gj 15gjzz
+vnoremap gk 15gkzz
+inoremap jk <Esc>
+nnoremap <esc><esc> :noh<return>
+
+map <leader><leader>e :vsp $MYVIMRC<CR>
+map <leader><leader>s :source $MYVIMRC<CR>
+
+" Split window vertically or horizontally *and* switch to the new split!
+map <leader>h :split<Bar>:wincmd j<CR>:wincmd =<CR>
+map <leader>v :vsplit<Bar>:wincmd l<CR>:wincmd =<CR>
+
+
+nnoremap <leader>u :UndotreeShow<CR>
+nnoremap <C-p> :GFiles<CR>
+nnoremap <leader>gc :GCheckout<cr>
+nmap <leader>gs :G<CR>
+nmap <leader>gv :GV<CR>
+
+nnoremap <leader>x :close<CR>
+map <Leader>w  :NERDTreeFind<CR>
+map <leader>n :bn<CR>
+map <leader>p :bp<CR>
+map <Leader>q :Goyo 120<CR>;
+map <Leader>z :ZoomWinTabToggle<CR>
+" Show all diagnostics
+
+nnoremap <space>s :w<CR>
+" key bindings for quickly moving between windows: h left, l right, k up, j down
+nmap <space>h <c-w>h
+nmap <space>l <c-w>l
+nmap <space>k <c-w>k
+nmap <space>j <c-w>j
+nmap <space>b <C-o>
+nmap <space>n <C-i>
+map <space><Enter> i<Enter><ESC>
+map <space>; A;<ESC>
+
+
+  " See `:help vim.lsp.*` for documentation on any of the below functions
+nnoremap gD <Cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap gd <Cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap K <Cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap gi <cmd>lua vim.lsp.buf.implementation()<CR>
+"noremap gr <cmd>lua vim.lsp.buf.references()<CR>
+noremap gr :Telescope lsp_references<CR>
+nnoremap gp :Lspsaga preview_definition<CR>
+
+nnoremap gh <cmd>lua vim.lsp.buf.outgoing_calls()<CR>
+
+"nnoremap <silent> gO <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> <space><space>o <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> gW  <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+nnoremap <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <space>wa <cmd>lua vim.lsp.buf.add_workspace_folder()<CR>
+nnoremap <space>wr <cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>
+nnoremap <space>wl <cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>
+nnoremap <space>d <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <space>rn <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <space>ca <cmd>lua vim.lsp.buf.code_action()<CR>
+nnoremap <space><space>ca :Lspsaga code_action<CR>
+nnoremap <space>e <cmd>lua vim.diagnostic.open_float()<CR>
+nnoremap <space>[ <cmd>lua vim.diagnostic.goto_prev()<CR>
+nnoremap <space>] <cmd>lua vim.diagnostic.goto_next()<CR>
+nnoremap <space>q <cmd>lua vim.diagnostic.setloclist()<CR>
+nnoremap <space>ff <cmd>lua vim.lsp.buf.format({ async = true })<CR>
+vnoremap <space>ff <cmd>lua vim.lsp.buf.format({ async = true })<CR>
+nnoremap <space>oi <cmd>lua vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })<CR>
+
+nnoremap <leader>sr <cmd>lua vim.lsp.buf.server_ready()<CR>
+nnoremap <leader>jl <cmd>lua vim.lsp.util.jump_to_location()<CR>
+nnoremap gS :Lspsaga signature_help<CR>
+nnoremap ga <cmd>lua vim.lsp.util.buf_highlight_references()<CR>
+
+
+command! -nargs=0 OR call: <Cmd>lua require'jdtls'.organize_imports()<CR>
+
+imap ;; <ESC>A;<ESC>
+
+
+set completeopt=menu,menuone,noselect
+
+
+" Telescope
+map <Leader>r :Telescope oldfiles layout_strategy=vertical<CR>
+map <leader>f :Telescope git_files layout_strategy=vertical<CR>
+map <Leader>e :Telescope buffers layout_strategy=vertical<CR>
+map <leader>t :Telescope live_grep<CR>
+"map <leader>t :Telescope lsp_dynamic_workspace_symbols  layout_strategy=vertical<CR>
+"map <space>f :Telescope current_buffer_fuzzy_find<CR>
+
+map <leader>gc :Telescope git_commits<CR>
+map <leader>gbc :Telescope git_bcommits<CR>
+map <leader>gb :Telescope git_branches<CR>
+map <space>o :Telescope lsp_document_symbols layout_strategy=vertical<CR>
+map <leader>o :Telescope lsp_workspace_symbols layout_strategy=vertical<CR>
+
+map <space>d :Telescope diagnostics bufnr=0<CR>
+map <leader>d :Telescope diagnostics<CR>
+map <space>r :Telescope lsp_references<CR>
+map <space>i :Telescope lsp_implementations<CR>
+map <space>td :Telescope lsp_type_definitions<CR>
+
+nmap <space>p <Plug>yankstack_substitute_older_paste
+nmap <space>P <Plug>yankstack_substitute_newer_paste
+
+map <space>tf :TestFile<CR>
+map <space>tt :TestNarest<CR>
+map <space>ts :TestSuite<CR>
+
+" Trouble (LSP diagnostics viewer)
+nnoremap <leader>xx <cmd>Trouble<cr>
+nnoremap <leader>xw <cmd>Trouble workspace_diagnostics<cr>
+nnoremap <leader>xd <cmd>Trouble document_diagnostics<cr>
+nnoremap <leader>xl <cmd>Trouble loclist<cr>
+nnoremap <leader>xq <cmd>Trouble quickfix<cr>
+nnoremap gR <cmd>Trouble lsp_references<cr>
+
+" Symbols Outline
+nnoremap <leader>so <cmd>SymbolsOutline<cr>
+
+
+map <leader>ma :lua require("harpoon.mark").add_file()<CR>
+map <leader>mm :lua require("harpoon.ui").toggle_quick_menu()<CR>
+map <leader>mq :lua require("harpoon.ui").nav_file(1)<CR>
+map <leader>mw :lua require("harpoon.ui").nav_file(2)<CR>
+map <leader>mf :lua require("harpoon.ui").nav_file(3)<CR>
+map <leader>mp :lua require("harpoon.ui").nav_file(4)<CR>
+
+"map <space>o :Telescope lsp_document_symbols<CR>
+"map <leader>o :Telescope lsp_workspace_symbols<CR>
+
+lua local actions = require('telescope.actions') require('telescope').setup{ defaults = { mappings = { i = { ["<esc>"] = actions.close }, }, } }
+lua require'nvim-treesitter.configs'.setup { ensure_installed = { "java", "javascript", "typescript", "html", "bash", "jsdoc", "json", "markdown", "yaml", "vim", "css", "scss", "angular" }, highlight = { enable = true, }, indent = { enable = true }, incremental_selection = { enable = true }, }
+
+:lua << EOF
+      -- Common on_attach function for LSP servers
+      local on_attach = function(client, bufnr)
+        -- Enable completion triggered by <c-x><c-o>
+        vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+        
+        -- Enable format on save for certain file types
+        if client.supports_method("textDocument/formatting") then
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            group = vim.api.nvim_create_augroup("LspFormatting", { clear = true }),
+            buffer = bufnr,
+            callback = function()
+              vim.lsp.buf.format({ async = false })
+            end,
+          })
+        end
+      end
+
+      --Enable (broadcasting) snippet capability for completion
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+      -- require'lspconfig'.html.setup{  cmd = { "vscode-html-language-server.cmd", "--stdio" }}
+      -- require'lspconfig'.yamlls.setup{ cmd = { "yaml-language-server.cmd", "--stdio" } }
+      -- require'lspconfig'.jsonls.setup{ cmd = { "vscode-json-language-server.cmd", "--stdio" }}
+      -- require'lspconfig'.angularls.setup{ cmd = { "ngserver.cmd", "--stdio", "--tsProbeLocations", "", "--ngProbeLocations", "" }}
+
+      require'lspconfig'.html.setup{
+          on_attach = on_attach,
+          capabilities = capabilities,
+      }
+      require'lspconfig'.yamlls.setup{
+          on_attach = on_attach,
+          capabilities = capabilities,
+      }
+      require'lspconfig'.jsonls.setup{
+          on_attach = on_attach,
+          capabilities = capabilities,
+      }
+      require'lspconfig'.cssls.setup{
+          on_attach = on_attach,
+          capabilities = capabilities,
+      }
+      -- TypeScript/JavaScript Language Server
+      require'lspconfig'.tsserver.setup{
+          on_attach = on_attach,
+          capabilities = capabilities,
+          settings = {
+            typescript = {
+              inlayHints = {
+                includeInlayParameterNameHints = 'all',
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayEnumMemberValueHints = true,
+              }
+            },
+            javascript = {
+              inlayHints = {
+                includeInlayParameterNameHints = 'all',
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayEnumMemberValueHints = true,
+              }
+            }
+          }
+      }
+
+      -- Angular Language Server
+      require'lspconfig'.angularls.setup{
+          on_attach = on_attach,
+          capabilities = capabilities,
+          root_dir = require'lspconfig'.util.root_pattern('angular.json', '.git'),
+          settings = {
+            angular = {
+              enable = true,
+              disableTypeScriptVersionWarning = true
+            }
+          }
+      }
+
+      -- Enhanced Java Language Server (JDTLS)
+      require'lspconfig'.jdtls.setup{
+          on_attach = function(client, bufnr)
+            on_attach(client, bufnr)
+            -- Additional Java-specific setup
+            require('jdtls.setup').add_commands()
+          end,
+          capabilities = capabilities,
+          cmd = { 'jdtls' },
+          settings = {
+            java = {
+              eclipse = {
+                downloadSources = true,
+              },
+              configuration = {
+                updateBuildConfiguration = "interactive",
+              },
+              maven = {
+                downloadSources = true,
+              },
+              implementationsCodeLens = {
+                enabled = true,
+              },
+              referencesCodeLens = {
+                enabled = true,
+              },
+              references = {
+                includeDecompiledSources = true,
+              },
+              inlayHints = {
+                parameterNames = {
+                  enabled = "all", -- literals, all, none
+                },
+              },
+              format = {
+                enabled = true,
+                settings = {
+                  url = vim.fn.stdpath "config" .. "/lang-servers/intellij-java-google-style.xml",
+                  profile = "GoogleStyle",
+                },
+              },
+            },
+            signatureHelp = { enabled = true },
+            completion = {
+              favoriteStaticMembers = {
+                "org.hamcrest.MatcherAssert.assertThat",
+                "org.hamcrest.Matchers.*",
+                "org.hamcrest.CoreMatchers.*",
+                "org.junit.jupiter.api.Assertions.*",
+                "java.util.Objects.requireNonNull",
+                "java.util.Objects.requireNonNullElse",
+                "org.mockito.Mockito.*",
+              },
+            },
+            contentProvider = { preferred = "fernflower" },
+            extendedClientCapabilities = require("jdtls").extendedClientCapabilities,
+            sources = {
+              organizeImports = {
+                starThreshold = 9999,
+                staticStarThreshold = 9999,
+              },
+            },
+            codeGeneration = {
+              toString = {
+                template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+              },
+              useBlocks = true,
+            },
+          },
+          flags = {
+            allow_incremental_sync = true,
+          },
+          root_dir = function(fname)
+             return require'lspconfig'.util.root_pattern('pom.xml', 'gradle.build', 'build.gradle', '.git')(fname) or vim.fn.getcwd()   
+          end
+      }
+
+      -- Modern LSP servers (install as needed)
+      -- Lua Language Server
+      require'lspconfig'.lua_ls.setup{
+          on_attach = on_attach,
+          capabilities = capabilities,
+          settings = {
+            Lua = {
+              runtime = {
+                version = 'LuaJIT',
+              },
+              diagnostics = {
+                globals = {'vim'},
+              },
+              workspace = {
+                library = vim.api.nvim_get_runtime_file("", true),
+                checkThirdParty = false,
+              },
+              telemetry = {
+                enable = false,
+              },
+            },
+          },
+      }
+
+      -- Python Language Server
+      require'lspconfig'.pyright.setup{
+          on_attach = on_attach,
+          capabilities = capabilities,
+      }
+
+      -- Rust Language Server
+      require'lspconfig'.rust_analyzer.setup{
+          on_attach = on_attach,
+          capabilities = capabilities,
+          settings = {
+            ["rust-analyzer"] = {
+              assist = {
+                importGranularity = "module",
+                importPrefix = "self",
+              },
+              cargo = {
+                loadOutDirsFromCheck = true
+              },
+              procMacro = {
+                enable = true
+              },
+            }
+          }
+      }
+
+      -- Go Language Server
+      require'lspconfig'.gopls.setup{
+          on_attach = on_attach,
+          capabilities = capabilities,
+      }
+
+      -- C/C++ Language Server
+      require'lspconfig'.clangd.setup{
+          on_attach = on_attach,
+          capabilities = capabilities,
+      }
+
+      -- Bash Language Server
+      require'lspconfig'.bashls.setup{
+          on_attach = on_attach,
+          capabilities = capabilities,
+      }
+
+      -- Docker Language Server
+      require'lspconfig'.dockerls.setup{
+          on_attach = on_attach,
+          capabilities = capabilities,
+      }
+
+      -- Vim Language Server
+      require'lspconfig'.vimls.setup{
+          on_attach = on_attach,
+          capabilities = capabilities,
+      }
+
+    require'lsp_signature'.on_attach()
+
+EOF
+
+" lua <<EOF
+"   vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+"   vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
+"   vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
+"   vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
+"   vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
+"   vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
+"   vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
+"   vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+" EOF
+
+map <leader>ca <Cmd>lua require('jdtls').code_action()<CR>
+"map <leader>ca :Telescope lsp_code_actions<cr>
+vnoremap <A-CR> <Esc><Cmd>lua require('jdtls').code_action(true)<CR>
+"nnoremap <leader>ca <Cmd>lua require('jdtls').code_action(false, 'refactor')<CR>
+
+nnoremap <A-o> <Cmd>lua require'jdtls'.organize_imports()<CR>
+nnoremap crv <Cmd>lua require('jdtls').extract_variable()<CR>
+vnoremap crv <Esc><Cmd>lua require('jdtls').extract_variable(true)<CR>
+nnoremap crc <Cmd>lua require('jdtls').extract_constant()<CR>
+vnoremap crc <Esc><Cmd>lua require('jdtls').extract_constant(true)<CR>
+vnoremap crm <Esc><Cmd>lua require('jdtls').extract_method(true)<CR>
+
+" Angular/TypeScript specific keybindings
+nnoremap <leader>ao <cmd>lua vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports.ts' } }, apply = true })<CR>
+nnoremap <leader>af <cmd>lua vim.lsp.buf.code_action({ context = { only = { 'source.fixAll.ts' } }, apply = true })<CR>
+nnoremap <leader>ar <cmd>lua vim.lsp.buf.code_action({ context = { only = { 'refactor' } } })<CR>
+nnoremap <leader>ai <cmd>lua vim.lsp.buf.code_action({ context = { only = { 'source.addMissingImports.ts' } }, apply = true })<CR>
+
+" Java specific keybindings
+nnoremap <leader>jo <Cmd>lua require'jdtls'.organize_imports()<CR>
+nnoremap <leader>jv <Cmd>lua require('jdtls').extract_variable()<CR>
+vnoremap <leader>jv <Esc><Cmd>lua require('jdtls').extract_variable(true)<CR>
+nnoremap <leader>jc <Cmd>lua require('jdtls').extract_constant()<CR>
+vnoremap <leader>jc <Esc><Cmd>lua require('jdtls').extract_constant(true)<CR>
+vnoremap <leader>jm <Esc><Cmd>lua require('jdtls').extract_method(true)<CR>
+nnoremap <leader>jt <Cmd>lua require('jdtls').test_class()<CR>
+nnoremap <leader>jn <Cmd>lua require('jdtls').test_nearest_method()<CR>
+
+
+" If using nvim-dap
+" This requires java-debug and vscode-java-test bundles, see install steps in this README further below.
+nnoremap <leader>df <Cmd>lua require'jdtls'.test_class()<CR>
+nnoremap <leader>dn <Cmd>lua require'jdtls'.test_nearest_method()<CR>
+
+command! -buffer JdtCompile lua require('jdtls').compile()
+command! -buffer JdtUpdateConfig lua require('jdtls').update_project_config()
+command! -buffer JdtJol lua require('jdtls').jol()
+command! -buffer JdtBytecode lua require('jdtls').javap()
+command! -buffer JdtJshell lua require('jdtls').jshell()
+
+:lua <<EOF
+
+    local saga = require 'lspsaga'
+
+    -- use default config
+    saga.init_lsp_saga()
+
+
+
+    local tabnine = require('cmp_tabnine.config')
+    tabnine:setup({
+            max_lines = 1000;
+            max_num_results = 20;
+            sort = true;
+      run_on_every_keystroke = true;
+      snippet_placeholder = '..';
+    })
+
+    local lspkind = require "lspkind"
+    lspkind.init()
+
+
+
+  -- Setup nvim-cmp.
+  local cmp = require'cmp'
+
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+      end,
+    },
+    mapping = {
+      ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<Down>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+      ['<Up>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+      -- ['<Tab>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+      -- ['<S-Tab>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<ESC>'] = cmp.mapping.close(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true}),
+    },
+    --  max_item_count = 10 Limits
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp'},
+      { name = 'cmp_tabnine' },
+      { name = 'vsnip' }, -- For vsnip users.
+      { name = 'buffer' },
+      { name = "path" },
+    }),
+    formatting = {
+      -- Youtube: How to set up nice formatting for your sources.
+      format = lspkind.cmp_format {
+        with_text = true,
+        menu = {
+          buffer = "[buf]",
+          nvim_lsp = "[LSP]",
+          cmp_tabnine = "[Tabnine]",
+          path = "[path]",
+          vsnip = "[snip]",
+        },
+      },
+    },
+    experimental = {
+      -- I like the new menu better! Nice work hrsh7th
+      native_menu = false,
+
+      -- Let's play with this for a day or two
+      ghost_text = true,
+    },
+
+  })
+
+
+  require'hop'.setup()
+
+  -- Setup Trouble for better diagnostics display
+  require("trouble").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+  }
+
+  -- Setup Symbols Outline
+  require("symbols-outline").setup()
+
+EOF
+
+
+
+let g:test#neovim#start_normal = 1 " If using neovim strategy
+let g:test#basic#start_normal = 1 " If using basic strategy
+
+
+
+"HOP
+map <space>w :HopWord<CR>
+map <space><space>l :HopLine<CR>
+vnoremap <space>f <cmd>HopChar1<CR>
+nnoremap <space>f <cmd>HopChar1<CR>
+
+" Expand
+imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+
+" Expand or jump
+imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+
+" Jump forward or backward
+" imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+" smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+" imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+" smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
